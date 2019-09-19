@@ -6,3 +6,21 @@ body {
 a {
   color: #00B7FF;
 }
+
+.headerTitle{
+  margin: 0 auto; 
+  width: 100%;
+  color: white;
+  background-color: #060056;
+  text-align: center;
+  padding-top: 0.5%;
+  padding-bottom: 0.5%;
+}
+
+.searchSection{
+  padding-top: 5%;
+}
+
+.row.justify-content-md-center{
+  padding-bottom: 2%;
+}
