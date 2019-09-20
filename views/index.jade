@@ -1,5 +1,4 @@
 extends layout
-
 block content
   .headerTitle
     h1 Google Scholar Scraper
@@ -9,30 +8,52 @@ block content
         input#scholarSearchString.form-control.py-2(type='search', placeholder='Search the way you search on Google Scholar')
     .row.justify-content-md-center
         button.btn.btn-primary.search-button(type='button' id="scholar_search_string")
-          i.fa.fa-arrow-up &nbsp; Search
+          i.fa.fa-search &nbsp; Search
+
+    //- TABLE THAT WILL AUTOMATICALLY POPULATE ALL THE BELOW COLUMNS WHEN
+    //- SOMEONE CLICKS ON THE SEARCH BUTTON OR HITS ENTER AFTER TYPING IN THE INPUT
+    .scholarResultsTable
+        table#scholarResultsTableHeadings.table.table-striped
+            thead
+                tr
+                    th Title
+                    th URL
+                    th Authors
+                    th Description
+                    th Cited Count
+                    th Cited URL
+                    th Related URL
+                    th Venue
+                    th Year
+            tbody.scholarResultsTableData
 
 
   script.
     
     function searchResearchPapers(){
 
-      //- Assigning a value to the input that a user types in the search bar
+      //- ASSIGNING A VALUE TO THE INPUT THAT A USER TYPES IN THE SEARCH BAR
       let searchString = $('input#scholarSearchString').val();
+
+      console.log(searchString);
 
       $.ajax({
                 type: "POST",
-                url: "/index/searchScholarButton",
+                url: "/searchScholarButton",
                 data: {
-                    searchString: searchString // < note use of 'this' here
-                }
+                    searchString: searchString // < NOTE USE OF 'THIS' HERE
+                  },
 
+                  success: function (result){
+                    console.log(result);
+                    }
             });
       
     }
     
-    //- A function with parameter 'e' i.e., 'event' in JS is assigned when
-    //- user clicks on the search button. The button is referenced here using
-    //- the 'id' given to the button i.e., #course_search_string in this scenario
+    //- A FUNCTION WITH PARAMETER 'E' I.E., 'EVENT' IN JS IS ASSIGNED WHEN
+    //- USER CLICKS ON THE SEARCH BUTTON. THE BUTTON IS REFERENCED HERE USING
+    //- THE 'ID' GIVEN TO THE BUTTON I.E., #COURSE_SEARCH_STRING IN THIS SCENARIO
     $("scholar_search_string").click (function (e) {
         e.preventDefault();
         searchResearchPapers();
@@ -40,7 +61,7 @@ block content
     $(document).keypress (function (e) {
         if (e.which == 13) {
             e.preventDefault();
-            searchCourse();
+            searchResearchPapers();
         }
     });
 

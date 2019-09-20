@@ -2,23 +2,30 @@ var express = require('express');
 var router = express.Router();
 let scholar = require('google-scholar-extended');
 
-var searchValue = `"thematic analysis" AND "games" AND "HCI" AND "game design"`;
 var result = {};
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', async function (req, res, next) {
+
+  res.render('index', {
+    title: 'Express'
+  });
+});
+
+router.post("/searchScholarButton", async function (req, res, next) {
+
+  var searchValue = req.body.searchString;
+
+  console.log(searchValue);
 
   scholar.search(searchValue)
     .then(resultsObj => {
       result = resultsObj;
       console.log(result);
-  })
-
-  res.render('index', 
-    {  
-       title: 'Express', 
-       queryResult: result 
     });
+
+  res.send(result);
+
 });
 
 module.exports = router;
